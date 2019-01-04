@@ -2,17 +2,13 @@
   "name": "nova",
   "version": "0.1.0",
   "main": "index.js",
+  "scripts": {
+    "install": "cd client/ && npm install && cd ../server && npm install",
+    "start": "nodemon server/ & expo start client/",
+    "client": "expo start client/",
+    "server": "nodemon server/"
+  },
   "repository": "https://github.com/eduardofidera/nova.git",
   "author": "Eduardo <eduardofidera@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^8.0.4",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4"
-  }
+  "license": "MIT"
 }

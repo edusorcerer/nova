@@ -4,9 +4,11 @@ const server = express()
 
 server.get("/*", (req, res) => {
   res.writeHead(200, { "Content-Type": "application/json" })
-  res.end(JSON.stringify({ isServerReady: true }))
+  res.end(JSON.stringify({ isServerReady: false }))
 })
 
-server.listen(8080, () => {
-  console.log("listening to port 8080!")
+const port = 4000
+
+server.listen(port, () => {
+  console.log("server started! listening to port " + port)
 })
