@@ -1,34 +1,38 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Header, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
+import React from "react"
+import { StyleSheet, Text, View } from "react-native"
+import { Header } from "react-native-elements"
 
-export default class App extends React.Component {
+import PlacesList from "./PlacesList"
+
+export default class LoL extends React.Component {
+  state = {
+    places: [
+      {
+        name: "teste",
+        lat: "123",
+        longi: "321"
+      }
+    ]
+  }
+
   render() {
+    const { places, users } = this.state
+
     return (
       <View>
-        <Header
-          leftComponent={{ icon: "menu", color: "#fff" }}
-          centerComponent={{ text: "Balada Finder", style: { color: "#fff" } }}
-          rightComponent={{ icon: "home", color: "#fff" }}
-        />
-        <Text style={styles.title}>App de balada!</Text>
-        <Text style={styles.paragraph}>lorem ipsum</Text>
+        <View>
+          <Header
+            leftComponent={{ icon: "menu", color: "#fff" }}
+            centerComponent={{
+              text: "Balada Finder",
+              style: { color: "#fff" }
+            }}
+            rightComponent={{ icon: "home", color: "#fff" }}
+          />
+        </View>
+
+        <PlacesList places={places} />
       </View>
-    );
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  title: {
-    color: "#666"
-  },
-  paragraph: {
-    color: "#000"
-  }
-});
