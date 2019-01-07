@@ -1,5 +1,5 @@
-import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 
 const PlacesList = props => {
   const { places } = props
@@ -8,11 +8,14 @@ const PlacesList = props => {
     <View>
       <Text>PlacesList</Text>
 
-      {places.map(({ name, lat, longi }) => (
-        <View>
-          <Text>{name}</Text>
-          <Text style={styles.title}>{lat}</Text>
-          <Text style={styles.paragraph}>{longi}</Text>
+      {places.map(({ id, name, address: { city, state } }) => (
+        <View key={id}>
+          <Text>
+            {id} - {name}{' '}
+            <Text style={styles.paragraph}>
+              {city}, {state}
+            </Text>
+          </Text>
         </View>
       ))}
     </View>
@@ -21,16 +24,17 @@ const PlacesList = props => {
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
-    color: "#666"
+    color: '#666',
   },
   paragraph: {
-    color: "#000"
-  }
+    color: '#000',
+    fontWeight: 'bold',
+  },
 })
 
 export default PlacesList

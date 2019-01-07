@@ -1,35 +1,66 @@
-import React from "react"
-import { StyleSheet, Text, View } from "react-native"
-import { Header } from "react-native-elements"
+import React from 'react'
+import { View } from 'react-native'
+import { Header } from 'react-native-elements'
 
-import PlacesList from "./PlacesList"
+import PlacesList from './PlacesList'
 
 export default class LoL extends React.Component {
   state = {
     places: [
       {
-        name: "teste",
-        lat: "123",
-        longi: "321"
-      }
-    ]
+        id: '1',
+        name: 'A Good Place',
+        address: {
+          addressType: 'residential',
+          city: 'Fjarðabyggð',
+          complement: '',
+          country: 'Iceland',
+          neighborhood: 'Fáskrúðsfjörður',
+          number: 10,
+          postalCode: '',
+          state: 'Austurland',
+          street: '',
+          geoCoordinates: {
+            lat: 64.928923,
+            longi: -14.006109,
+          },
+        },
+      },
+      {
+        id: '2',
+        name: 'Nice Place',
+        address: {
+          addressType: 'residential',
+          city: 'Florianópolis',
+          complement: 'Oasis',
+          country: 'Brazil',
+          neighborhood: 'Itacorubi',
+          number: 300,
+          postalCode: '89040-040',
+          state: 'Santa Catarina',
+          street: 'Rod. Amaro Antônio Viêira',
+          geoCoordinates: {
+            lat: 64.928923,
+            longi: -14.006109,
+          },
+        },
+      },
+    ],
   }
 
   render() {
-    const { places, users } = this.state
+    const { places } = this.state
 
     return (
       <View>
-        <View>
-          <Header
-            leftComponent={{ icon: "menu", color: "#fff" }}
-            centerComponent={{
-              text: "Balada Finder",
-              style: { color: "#fff" }
-            }}
-            rightComponent={{ icon: "home", color: "#fff" }}
-          />
-        </View>
+        <Header
+          leftComponent={{ icon: 'menu', color: '#fff' }}
+          centerComponent={{
+            text: 'Balada Finder',
+            style: { color: '#fff' },
+          }}
+          rightComponent={{ icon: 'home', color: '#fff' }}
+        />
 
         <PlacesList places={places} />
       </View>
