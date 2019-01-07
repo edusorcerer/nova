@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 import { Button, FormLabel, FormInput } from 'react-native-elements'
 
 class CreatePlace extends Component {
@@ -13,12 +14,12 @@ class CreatePlace extends Component {
    * Calls the CreatePlace mutation to create a place
    */
   handleCreatePlace = () => {
-    const { CreatePlaceMutation } = this.props
+    const { createPlaceMutation } = this.props
     const { name } = this.state
 
     console.log(name)
 
-    return CreatePlaceMutation && CreatePlaceMutation({ variables: { name } })
+    return createPlaceMutation && createPlaceMutation({ variables: { name } })
   }
 
   /**
@@ -46,7 +47,7 @@ class CreatePlace extends Component {
 }
 
 const CREATE_PLACE = gql`
-  mutation CreatePlaceMutation($place: String!) {
+  mutation createPlaceMutation($name: String!) {
     createPlace(
       name: $name
       address: {
@@ -67,4 +68,8 @@ const CREATE_PLACE = gql`
   }
 `
 
-export default CreatePlace
+const CreatePlaceWithMutation = graphql(CREATE_PLACE, {
+  name: 'createPlaceMutation',
+})(CreatePlace)
+
+export default CreatePlaceWithMutation

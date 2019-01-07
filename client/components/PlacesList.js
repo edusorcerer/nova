@@ -6,18 +6,17 @@ const PlacesList = props => {
 
   return (
     <View>
-      <Text>PlacesList</Text>
-
-      {places.map(({ id, name, address: { city, state } }) => (
-        <View key={id}>
-          <Text>
-            {id} - {name}{' '}
-            <Text style={styles.paragraph}>
-              {city}, {state}
+      {places &&
+        places.map(({ id, name, address: { city, state } }) => (
+          <View key={id}>
+            <Text>
+              {id} - {name}{' '}
+              <Text style={styles.paragraph}>
+                {city}, {state}
+              </Text>
             </Text>
-          </Text>
-        </View>
-      ))}
+          </View>
+        ))}
     </View>
   )
 }
