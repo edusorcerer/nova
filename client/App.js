@@ -2,9 +2,10 @@ import React from 'react'
 import { View } from 'react-native'
 import { Header } from 'react-native-elements'
 
-import PlacesList from './PlacesList'
+import PlacesList from './components/PlacesList'
+import CreatePlace from './components/CreatePlace'
 
-export default class LoL extends React.Component {
+class App extends React.Component {
   state = {
     places: [
       {
@@ -62,8 +63,13 @@ export default class LoL extends React.Component {
           rightComponent={{ icon: 'home', color: '#fff' }}
         />
 
+        {/* @TODO: react-router to navigate between CreatePlace and PlacesList */}
+        <CreatePlace />
+
         <PlacesList places={places} />
       </View>
     )
   }
 }
+
+export default App
