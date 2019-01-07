@@ -1,0 +1,30 @@
+# The following types define the data model of the example service
+# based on which the GraphQL API is generated
+
+type GeoCoordinate @model {
+  id: ID! @isUnique
+  lat: String
+  longi: String
+  address: Address! @relation(name: "AddressCoordinate")
+}
+
+type Address @model {
+  id: ID! @isUnique
+  addressType: String
+  city: String
+  complement: String
+  country: String
+  neighborhood: String
+  number: String
+  postalCode: String
+  state: String
+  street: String
+  geoCoordinates: GeoCoordinate! @relation(name: "AddressCoordinate")
+  place: Place! @relation(name: "PlaceAddress")
+}
+
+type Place @model {
+  id: ID! @isUnique
+  name: String
+  address: Address! @relation(name: "PlaceAddress")
+}
