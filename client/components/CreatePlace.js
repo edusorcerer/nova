@@ -1,35 +1,25 @@
-import React, { Component } from 'react'
-import { View, Text } from 'react-native'
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo'
-import { Button, FormLabel, FormInput } from 'react-native-elements'
+import React, { Component } from "react"
+import { View, Text } from "react-native"
+import gql from "graphql-tag"
+import { Mutation } from "react-apollo"
+import { Button, FormLabel, FormInput } from "react-native-elements"
 
 class CreatePlace extends Component {
   state = {
-    name: '',
-    address: {},
-  }
-
-  /**
-   * Calls the CreatePlace mutation to create a place
-   */
-  handleCreatePlace = () => {
-    const { createPlaceMutation } = this.props
-    const { name } = this.state
-
-    console.log(name)
-
-    return createPlaceMutation && createPlaceMutation({ variables: { name } })
+    name: "",
+    address: {}
   }
 
   /**
    * @TODO: handler for address change.
    * It might be a call for the Google Maps API, that searches for user's address
    */
-  handleAddressChange = () => console.log('address changed')
+  handleAddressChange = e => console.log(e)
 
   render() {
-    const { handleAddressChange, handleCreatePlace } = this
+    const { handleAddressChange, props, state } = this
+    const { allPlacesQuery } = props
+    const { name } = state
 
     return (
       <View>
@@ -38,9 +28,16 @@ class CreatePlace extends Component {
         <FormInput onChangeText={name => this.setState({ name })} />
 
         <FormLabel>Address</FormLabel>
-        <FormInput onChangeText={handleAddressChange} />
+        <FormInput onChangeText={e => handleAddressChange(e)} />
 
-        <Button onPress={handleCreatePlace} title="create place" />
+        <Mutation mutation={CREATE_PLACE} onCompleted={allPlacesQuery.refetch}>
+          {(createPlaceMutation, { data }) => (
+            <Button
+              onPress={createPlaceMutation ? () => createPlaceMutation({ variables: { name } }) : () => true}
+              title="create place"
+            />
+          )}
+        </Mutation>
       </View>
     )
   }
@@ -68,8 +65,4 @@ const CREATE_PLACE = gql`
   }
 `
 
-const CreatePlaceWithMutation = graphql(CREATE_PLACE, {
-  name: 'createPlaceMutation',
-})(CreatePlace)
-
-export default CreatePlaceWithMutation
+export default CreatePlace
