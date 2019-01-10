@@ -5,12 +5,16 @@ import { Mutation } from "react-apollo"
 import { Button } from "react-native-elements"
 
 const PlacesList = props => {
-  const { allPlacesQuery, places } = props
+  const { allPlacesQuery } = props
+  const { allPlaces } = allPlacesQuery
 
-  return (
+  return allPlacesQuery.loading ? (
+    <Text>Loading places...</Text>
+  ) : (
     <ScrollView>
-      {places &&
-        places.map(({ id, name, address: { city, state } }) => (
+      <Button title="create a place" onPress={() => props.navigation.navigate("Create")} />
+      {allPlaces &&
+        allPlaces.map(({ id, name, address: { city, state } }) => (
           <View key={id}>
             <Text>
               {id} - {name}{" "}
