@@ -23,7 +23,6 @@ class CreatePlace extends Component {
 
     return (
       <View>
-        <Text>create a place</Text>
         <FormLabel>Name</FormLabel>
         <FormInput onChangeText={name => this.setState({ name })} />
 
