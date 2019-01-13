@@ -1,13 +1,14 @@
-import React, { Component } from "react"
-import { View, Text } from "react-native"
-import gql from "graphql-tag"
-import { Mutation } from "react-apollo"
-import { Button, FormLabel, FormInput } from "react-native-elements"
+import React, { Component } from 'react'
+import { View, Text } from 'react-native'
+import gql from 'graphql-tag'
+import { Mutation } from 'react-apollo'
+import { Button, FormLabel, FormInput } from 'react-native-elements'
 
 class CreatePlace extends Component {
   state = {
-    name: "",
-    address: {}
+    address: {},
+    isLoading: false,
+    name: '',
   }
 
   /**
@@ -16,10 +17,17 @@ class CreatePlace extends Component {
    */
   handleAddressChange = e => console.log(e)
 
+  handleCreatePlace = (createPlaceMutation, name) => {
+    this.setState({
+      isLoading: true,
+    })
+    return createPlaceMutation && createPlaceMutation({ variables: { name } })
+  }
+
   render() {
-    const { handleAddressChange, props, state } = this
+    const { handleAddressChange, handleCreatePlace, props, state } = this
     const { allPlacesQuery } = props
-    const { name } = state
+    const { isLoading, name } = state
 
     return (
       <View>
@@ -32,7 +40,9 @@ class CreatePlace extends Component {
         <Mutation mutation={CREATE_PLACE} onCompleted={allPlacesQuery.refetch}>
           {(createPlaceMutation, { data }) => (
             <Button
-              onPress={createPlaceMutation ? () => createPlaceMutation({ variables: { name } }) : () => true}
+              loading={isLoading}
+              loadingProps={{ size: 'large', color: '#0000ff' }}
+              onPress={() => handleCreatePlace(createPlaceMutation, name)}
               title="create place"
             />
           )}
