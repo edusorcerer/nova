@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { Mutation } from 'react-apollo'
-import { Icon, ListItem, Button } from 'react-native-elements'
+import { Avatar, ListItem, Button } from 'react-native-elements'
 
 import { DELETE_PLACE_MUTATION } from '../queries/Place'
 
@@ -58,7 +58,21 @@ class PlaceDetail extends Component {
 
     return (
       <View>
-        <Icon name="place" color="#009688" />
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 20,
+            marginTop: 20,
+          }}
+        >
+          <Avatar
+            large
+            rounded
+            icon={{ name: 'place', iconStyle: { backgroundColor: '#009688' } }}
+            activeOpacity={0.7}
+          />
+        </View>
         {placeInfos &&
           placeInfos.map(({ label, value }, i) => (
             <ListItem key={i} title={`${label}: ${value}`} hideChevron={true} />
