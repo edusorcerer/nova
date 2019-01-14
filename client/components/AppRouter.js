@@ -1,48 +1,67 @@
-import React from "react"
-import { createStackNavigator, createAppContainer } from "react-navigation"
-import gql from "graphql-tag"
-import { graphql } from "react-apollo"
+import React from 'react'
+import {
+  createStackNavigator,
+  createBottomTabNavigator,
+  createAppContainer,
+} from 'react-navigation'
+import { graphql } from 'react-apollo'
 
-import PlacesList from "./PlacesList"
-import CreatePlace from "./CreatePlace"
+import PlacesList from './PlacesList'
+import CreatePlace from './CreatePlace'
+import PlaceDetail from './PlaceDetail'
+
+import { ALL_PLACES_QUERY } from '../../queries/Place'
 
 const AppRouter = props => {
-  const AppNavigatorWithProps = createAppContainer(AppNavigator(props))
+  const TabNavigatorWithProps = createAppContainer(TabNavigator(props))
 
-  return <AppNavigatorWithProps />
+  return <TabNavigatorWithProps />
 }
+
+/**
+ * Create the home navigation routes
+ *
+ * @param {Object} values The object to be passed to routes as props
+ */
+const HomeStack = values =>
+  createStackNavigator(
+    {
+      Home: props => <PlacesList {...props} {...values} />,
+      PlaceDetail: props => <PlaceDetail {...props} {...values} />,
+    },
+    {
+      initialRouteName: 'Home',
+    }
+  )
+
+/**
+ * Create the create page navigation routes
+ *
+ * @param {Object} values The object to be passed to routes as props
+ */
+const CreatePlaceStack = values =>
+  createStackNavigator(
+    {
+      CreatePlace: props => <CreatePlace {...props} {...values} />,
+    },
+    {
+      initialRouteName: 'CreatePlace',
+    }
+  )
 
 /**
  * Create the app navigation routes
  *
  * @param {Object} values The object to be passed to routes as props
  */
-const AppNavigator = values =>
-  createStackNavigator(
-    {
-      Home: props => <PlacesList {...props} {...values} />,
-      Create: props => <CreatePlace {...props} {...values} />
-    },
-    {
-      initialRouteName: "Home"
-    }
-  )
-
-const ALL_PLACES_QUERY = gql`
-  query {
-    allPlaces {
-      id
-      name
-      address {
-        city
-        state
-      }
-    }
-  }
-`
+const TabNavigator = values =>
+  createBottomTabNavigator({
+    Home: HomeStack(values),
+    CreatePlace: CreatePlaceStack(values),
+  })
 
 const AppRouterWithAllPlacesQuery = graphql(ALL_PLACES_QUERY, {
-  name: "allPlacesQuery"
+  name: 'allPlacesQuery',
 })(AppRouter)
 
 export default AppRouterWithAllPlacesQuery
