@@ -1,31 +1,26 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native'
-import gql from 'graphql-tag'
-import { Mutation } from 'react-apollo'
-import { Button, ButtonGroup, ListItem } from 'react-native-elements'
+import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native'
+import { ListItem } from 'react-native-elements'
 
 class PlacesList extends Component {
-  state = {
-    isDeletingPlace: false,
-  }
-
   /**
-   * Handler for deleting a place.
-   * It sets the deleting place loader for the button and calls the mutation query
+   * Handler for clicking on a place.
+   * It sends the user to the selected place detail page
    *
-   * @param {Function} deletePlaceMutation The mutation function coming from ApolloGraphQL
-   * @param {String} id The id of the place to be deleted
+   * @param {String} id The id of the clicked place
+   * @param {Object} place The selected place object
    */
-  handleDeletePlace = (deletePlaceMutation, id) => {
-    this.setState({
-      isDeletingPlace: true,
+  handlePlaceClick = (id, place) => {
+    const { navigation } = this.props
+
+    navigation.navigate('PlaceDetail', {
+      place,
+      id,
     })
-    return deletePlaceMutation && deletePlaceMutation({ variables: { id } })
   }
 
   render() {
-    const { handleDeletePlace, props, state } = this
-    const { isDeletingPlace } = state
+    const { handlePlaceClick, props } = this
     const { allPlacesQuery } = props
     const { allPlaces } = allPlacesQuery
 
@@ -33,25 +28,28 @@ class PlacesList extends Component {
       <ActivityIndicator size="large" style={styles.loader} color="#0000ff" />
     ) : (
       <ScrollView>
-        <Button title="create a place" onPress={() => props.navigation.navigate('Create')} />
         {allPlaces &&
-          allPlaces.map(({ id, name, address: { city, state } }) => (
-            <View key={id}>
-              <ListItem key={id} title={`${name} - ${city}`} leftIcon={{ name: 'place' }} />
-            </View>
-          ))}
+          allPlaces.map(place => {
+            const {
+              id,
+              name,
+              address: { city, state },
+            } = place
+            return (
+              <View key={id}>
+                <ListItem
+                  key={id}
+                  title={`${name} - ${city}, ${state}`}
+                  leftIcon={{ name: 'place' }}
+                  onPress={() => handlePlaceClick(id, place)}
+                />
+              </View>
+            )
+          })}
       </ScrollView>
     )
   }
 }
-
-const DELETE_PLACE_MUTATION = gql`
-  mutation deletePlace($id: ID!) {
-    deletePlace(id: $id) {
-      id
-    }
-  }
-`
 
 const styles = StyleSheet.create({
   view: {
