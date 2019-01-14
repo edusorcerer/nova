@@ -21,10 +21,7 @@ const AddressSearchInput = ({ onAddressChange }) => {
       returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
       listViewDisplayed="auto" // true/false/undefined
       fetchDetails={true}
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        console.log(data, details)
-      }}
+      onPress={(data, details = null) => onAddressChange(data, details)}
       getDefaultValue={() => ''}
       query={{
         // available options: https://developers.google.com/places/web-service/autocomplete

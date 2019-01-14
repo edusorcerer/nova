@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
+import { path } from 'ramda'
 
 import AppRouter from './AppRouter'
 import AddressSearchInput from './AddressSearchInput'
@@ -9,8 +10,57 @@ class Layout extends Component {
     address: null,
   }
 
-  handleAddressChange = e => {
-    console.log(e)
+  handleAddressChange = (data, place) => {
+    const address = this.getParsedAddress(place)
+
+    this.setState({ address })
+  }
+
+  /**
+   * The place object returned from Google Maps API has some extra informations about the address that won't be used.
+   * So, this function will reduce nested address information into a simpler consumable object.
+   *
+   * @param {Object} place The place object returned from Google Maps API
+   * @returns {Object} The reduced address data with only necessary fields/information
+   */
+  getParsedAddress = place => {
+    const parsedAddressComponents = place.address_components.reduce(
+      (accumulator, address) => {
+        const parsedItem = address.types.reduce(
+          (accumulator, type) => ({
+            ...accumulator,
+            [type]: address.short_name,
+          }),
+          {},
+        )
+        return { ...accumulator, ...parsedItem }
+      },
+      {},
+    )
+
+    const { lat, lng } = path(['geometry', 'location'], place) || {}
+    // lat and lng may come as a function or a double
+    const latitude = typeof lat === 'function' ? lat() : lat
+    const longitude = typeof lng === 'function' ? lng() : lng
+
+    const address = {
+      addressType: 'residential',
+      city:
+        parsedAddressComponents.administrative_area_level_2 ||
+        parsedAddressComponents.locality,
+      complement: '',
+      /* Google Maps API returns Alpha-2 ISO codes, but checkout API requires Alpha-3 */
+      country: parsedAddressComponents.country,
+      neighborhood: parsedAddressComponents.sublocality_level_1,
+      number: parsedAddressComponents.street_number || '',
+      postalCode: parsedAddressComponents.postal_code,
+      receiverName: '',
+      state: parsedAddressComponents.administrative_area_level_1,
+      street: parsedAddressComponents.route,
+      geoCoordinates: latitude && longitude ? [longitude, latitude] : null,
+    }
+
+    return address
   }
 
   render() {
