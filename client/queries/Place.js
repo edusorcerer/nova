@@ -11,6 +11,10 @@ const ALL_PLACES_QUERY = gql`
         neighborhood
         street
         number
+        geoCoordinates {
+          lat
+          longi
+        }
       }
     }
   }
@@ -25,20 +29,25 @@ const DELETE_PLACE_MUTATION = gql`
 `
 
 const CREATE_PLACE_MUTATION = gql`
-  mutation createPlaceMutation($name: String!) {
+  mutation createPlaceMutation(
+    $name: String!
+    $city: String!
+    $state: String!
+    $neighborhood: String
+    $street: String
+    $number: String
+    $lat: String!
+    $longi: String!
+  ) {
     createPlace(
       name: $name
       address: {
-        addressType: "residential"
-        city: "Fjarðabyggð"
-        complement: ""
-        country: "Iceland"
-        neighborhood: "Fáskrúðsfjörður"
-        number: "10"
-        postalCode: ""
-        state: "Austurland"
-        street: ""
-        geoCoordinates: { lat: "64.928923", longi: "-14.006109" }
+        city: $city
+        state: $state
+        neighborhood: $neighborhood
+        street: $street
+        number: $number
+        geoCoordinates: { lat: $lat, longi: $longi }
       }
     ) {
       name

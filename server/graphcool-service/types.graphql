@@ -3,8 +3,8 @@
 
 type GeoCoordinate @model {
   id: ID! @isUnique
-  lat: String
-  longi: String
+  lat: String! @migrationValue(value: Float)
+  longi: String! @migrationValue(value: Float)
   address: Address! @relation(name: "AddressCoordinate")
 }
 
