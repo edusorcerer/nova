@@ -2,22 +2,28 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 
 import AppRouter from './AppRouter'
-import AddressSearch from './AddressSearch'
+import AddressSearchInput from './AddressSearchInput'
 
 class Layout extends Component {
   state = {
     address: null,
   }
 
+  handleAddressChange = e => {
+    console.log(e)
+  }
+
   render() {
-    const { address } = this.state
+    const { handleAddressChange, state } = this
+    const { address } = state
+
     return address ? (
       <AppRouter />
     ) : (
       <View style={styles.screen}>
         <Text style={styles.paragraph}>enter your address to continue</Text>
         <View style={styles.container}>
-          <AddressSearch />
+          <AddressSearchInput onAddressChange={handleAddressChange} />
         </View>
       </View>
     )
@@ -40,7 +46,6 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '40%',
     alignItems: 'center',
-    justifyContent: 'center',
     borderRadius: 8,
     backgroundColor: '#f4f4f4',
   },
