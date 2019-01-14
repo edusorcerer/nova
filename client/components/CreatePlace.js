@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
-import gql from 'graphql-tag'
+import { View } from 'react-native'
 import { Mutation } from 'react-apollo'
 import { Button, FormLabel, FormInput } from 'react-native-elements'
+
+import { CREATE_PLACE_MUTATION } from '../../queries/Place'
 
 class CreatePlace extends Component {
   state = {
@@ -32,13 +33,13 @@ class CreatePlace extends Component {
     return (
       <View>
         <FormLabel>Name</FormLabel>
-        <FormInput onChangeText={name => this.setState({ name })} />
+        <FormInput autoFocus={true} onChangeText={name => this.setState({ name })} />
 
         <FormLabel>Address</FormLabel>
         <FormInput onChangeText={e => handleAddressChange(e)} />
 
-        <Mutation mutation={CREATE_PLACE} onCompleted={allPlacesQuery.refetch}>
-          {(createPlaceMutation, { data }) => (
+        <Mutation mutation={CREATE_PLACE_MUTATION} onCompleted={allPlacesQuery.refetch}>
+          {createPlaceMutation => (
             <Button
               loading={isLoading}
               loadingProps={{ size: 'large', color: '#0000ff' }}
@@ -51,27 +52,5 @@ class CreatePlace extends Component {
     )
   }
 }
-
-const CREATE_PLACE = gql`
-  mutation createPlaceMutation($name: String!) {
-    createPlace(
-      name: $name
-      address: {
-        addressType: "residential"
-        city: "Fjarðabyggð"
-        complement: ""
-        country: "Iceland"
-        neighborhood: "Fáskrúðsfjörður"
-        number: "10"
-        postalCode: ""
-        state: "Austurland"
-        street: ""
-        geoCoordinates: { lat: "64.928923", longi: "-14.006109" }
-      }
-    ) {
-      name
-    }
-  }
-`
 
 export default CreatePlace
