@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { Mutation } from 'react-apollo'
 import { Icon, ListItem, Button } from 'react-native-elements'
 
-import { DELETE_PLACE_MUTATION } from '../../queries/Place'
+import { DELETE_PLACE_MUTATION } from '../queries/Place'
 
 class PlaceDetail extends Component {
   state = {
@@ -58,12 +58,15 @@ class PlaceDetail extends Component {
 
     return (
       <View>
-        <Icon name="place" color="#0000ff" />
+        <Icon name="place" color="#009688" />
         {placeInfos &&
           placeInfos.map(({ label, value }, i) => (
             <ListItem key={i} title={`${label}: ${value}`} hideChevron={true} />
           ))}
-        <Mutation mutation={DELETE_PLACE_MUTATION} onCompleted={allPlacesQuery.refetch}>
+        <Mutation
+          mutation={DELETE_PLACE_MUTATION}
+          onCompleted={allPlacesQuery.refetch}
+        >
           {deletePlaceMutation => (
             <Button
               loading={isDeletingPlace}

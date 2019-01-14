@@ -25,7 +25,7 @@ class PlacesList extends Component {
     const { allPlaces } = allPlacesQuery
 
     return allPlacesQuery.loading ? (
-      <ActivityIndicator size="large" style={styles.loader} color="#0000ff" />
+      <ActivityIndicator size="large" style={styles.loader} color="#009688" />
     ) : (
       <ScrollView>
         {allPlaces &&
@@ -52,21 +52,9 @@ class PlacesList extends Component {
 }
 
 const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    color: '#666',
-  },
-  paragraph: {
-    color: '#000',
-    fontWeight: 'bold',
-  },
   loader: {
     marginTop: '30%',
+    color: '#009688',
   },
 })
 

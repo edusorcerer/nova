@@ -10,7 +10,7 @@ import PlacesList from './PlacesList'
 import CreatePlace from './CreatePlace'
 import PlaceDetail from './PlaceDetail'
 
-import { ALL_PLACES_QUERY } from '../../queries/Place'
+import { ALL_PLACES_QUERY } from '../queries/Place'
 
 const AppRouter = props => {
   const TabNavigatorWithProps = createAppContainer(TabNavigator(props))
@@ -31,7 +31,17 @@ const HomeStack = values =>
     },
     {
       initialRouteName: 'Home',
-    }
+      defaultNavigationOptions: {
+        title: 'places',
+        headerStyle: {
+          backgroundColor: '#009688',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      },
+    },
   )
 
 /**
@@ -46,7 +56,17 @@ const CreatePlaceStack = values =>
     },
     {
       initialRouteName: 'CreatePlace',
-    }
+      defaultNavigationOptions: {
+        title: 'create a place',
+        headerStyle: {
+          backgroundColor: '#009688',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      },
+    },
   )
 
 /**

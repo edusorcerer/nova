@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { Mutation } from 'react-apollo'
 import { Button, FormLabel, FormInput } from 'react-native-elements'
 
-import { CREATE_PLACE_MUTATION } from '../../queries/Place'
+import { CREATE_PLACE_MUTATION } from '../queries/Place'
 
 class CreatePlace extends Component {
   state = {
@@ -33,16 +33,23 @@ class CreatePlace extends Component {
     return (
       <View>
         <FormLabel>Name</FormLabel>
-        <FormInput autoFocus={true} onChangeText={name => this.setState({ name })} />
+        <FormInput
+          autoFocus={true}
+          onChangeText={name => this.setState({ name })}
+        />
 
         <FormLabel>Address</FormLabel>
         <FormInput onChangeText={e => handleAddressChange(e)} />
 
-        <Mutation mutation={CREATE_PLACE_MUTATION} onCompleted={allPlacesQuery.refetch}>
+        <Mutation
+          mutation={CREATE_PLACE_MUTATION}
+          onCompleted={allPlacesQuery.refetch}
+        >
           {createPlaceMutation => (
             <Button
               loading={isLoading}
-              loadingProps={{ size: 'large', color: '#0000ff' }}
+              loadingProps={{ size: 'large', color: '#009688' }}
+              backgroundColor="#009688"
               onPress={() => handleCreatePlace(createPlaceMutation, name)}
               title="create place"
             />
