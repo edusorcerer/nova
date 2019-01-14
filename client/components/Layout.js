@@ -57,18 +57,19 @@ class Layout extends Component {
       receiverName: '',
       state: parsedAddressComponents.administrative_area_level_1,
       street: parsedAddressComponents.route,
-      geoCoordinates: latitude && longitude ? [longitude, latitude] : null,
+      geoCoordinates:
+        latitude && longitude ? { lat: latitude, longi: longitude } : null,
     }
 
     return address
   }
 
   render() {
-    const { handleAddressChange, state } = this
+    const { getParsedAddress, handleAddressChange, state } = this
     const { address } = state
 
     return address ? (
-      <AppRouter />
+      <AppRouter address={address} getParsedAddress={getParsedAddress} />
     ) : (
       <View style={styles.screen}>
         <Text style={styles.paragraph}>enter your address to continue</Text>

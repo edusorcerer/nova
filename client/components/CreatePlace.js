@@ -3,32 +3,49 @@ import { View } from 'react-native'
 import { Mutation } from 'react-apollo'
 import { Button, FormLabel, FormInput } from 'react-native-elements'
 
+import AddressSearchInput from './AddressSearchInput'
+
 import { CREATE_PLACE_MUTATION } from '../queries/Place'
 
 class CreatePlace extends Component {
   state = {
-    address: {},
+    address: null,
     isLoading: false,
     name: '',
   }
 
-  /**
-   * @TODO: handler for address change.
-   * It might be a call for the Google Maps API, that searches for user's address
-   */
-  handleAddressChange = e => console.log(e)
+  handleAddressChange = (data, place) => {
+    const { getParsedAddress } = this.props
+    const address = getParsedAddress(place)
 
-  handleCreatePlace = (createPlaceMutation, name) => {
+    this.setState({ address })
+  }
+
+  handleCreatePlace = createPlaceMutation => {
+    const { address, name } = this.state
+    const { geoCoordinates } = address
+
     this.setState({
       isLoading: true,
     })
-    return createPlaceMutation && createPlaceMutation({ variables: { name } })
+
+    return (
+      createPlaceMutation &&
+      createPlaceMutation({
+        variables: {
+          name,
+          ...address,
+          lat: toString(geoCoordinates.lat),
+          longi: toString(geoCoordinates.longi),
+        },
+      })
+    )
   }
 
   render() {
     const { handleAddressChange, handleCreatePlace, props, state } = this
     const { allPlacesQuery } = props
-    const { isLoading, name } = state
+    const { address, isLoading, name } = state
 
     return (
       <View>
@@ -39,7 +56,18 @@ class CreatePlace extends Component {
         />
 
         <FormLabel>Address</FormLabel>
-        <FormInput onChangeText={e => handleAddressChange(e)} />
+
+        <View
+          style={{
+            width: '100%',
+            height: '40%',
+            alignItems: 'center',
+            borderRadius: 8,
+            backgroundColor: '#f4f4f4',
+          }}
+        >
+          <AddressSearchInput onAddressChange={handleAddressChange} />
+        </View>
 
         <Mutation
           mutation={CREATE_PLACE_MUTATION}
@@ -50,7 +78,11 @@ class CreatePlace extends Component {
               loading={isLoading}
               loadingProps={{ size: 'large', color: '#009688' }}
               backgroundColor="#009688"
-              onPress={() => handleCreatePlace(createPlaceMutation, name)}
+              onPress={
+                address
+                  ? () => handleCreatePlace(createPlaceMutation)
+                  : () => false
+              }
               title="create place"
             />
           )}
