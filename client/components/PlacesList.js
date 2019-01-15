@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  ActivityIndicator,
+  Text,
+} from 'react-native'
 import { ListItem } from 'react-native-elements'
 
 class PlacesList extends Component {
@@ -59,30 +65,58 @@ class PlacesList extends Component {
     }
 
     return allPlacesQuery.loading ? (
-      <ActivityIndicator size="large" style={styles.loader} color="#009688" />
+      <ActivityIndicator size="large" style={styles.loader} color="#00675b" />
     ) : (
-      <ScrollView onScrollEndDrag={() => allPlacesQuery.refetch()}>
-        {allPlaces &&
-          allPlaces
-            .sort((a, b) => a.distance - b.distance)
-            .map(place => {
-              const {
-                id,
-                name,
-                address: { city, state },
-              } = place
-              return (
-                <View key={id}>
-                  <ListItem
-                    key={id}
-                    title={`${name} - ${city}, ${state}`}
-                    leftIcon={{ name: 'place' }}
-                    onPress={() => handlePlaceClick(id, place)}
-                  />
-                </View>
-              )
-            })}
-      </ScrollView>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#f4f4f4',
+        }}
+      >
+        <View
+          style={{
+            justifyContent: 'center',
+            width: '100%',
+            height: 65,
+            backgroundColor: '#429588',
+          }}
+        >
+          <Text style={{ marginLeft: 10, color: '#fafafa' }}>You are in</Text>
+          <Text
+            style={{ marginLeft: 10, color: '#fafafa', fontWeight: 'bold' }}
+          >{`${address.street}, ${address.city} - ${address.state}`}</Text>
+        </View>
+        <ScrollView
+          style={{ width: '100%' }}
+          onScrollEndDrag={() => allPlacesQuery.refetch()}
+        >
+          {allPlaces &&
+            allPlaces
+              .sort((a, b) => a.distance - b.distance)
+              .map(place => {
+                const {
+                  id,
+                  name,
+                  address: { city, state },
+                  distance,
+                } = place
+                return (
+                  <View key={id}>
+                    <ListItem
+                      key={id}
+                      title={`${name} - ${city}, ${state} • ${distance.toFixed(
+                        1,
+                      )} km`}
+                      leftIcon={{ name: 'place' }}
+                      onPress={() => handlePlaceClick(id, place)}
+                    />
+                  </View>
+                )
+              })}
+        </ScrollView>
+      </View>
     )
   }
 }
@@ -90,7 +124,7 @@ class PlacesList extends Component {
 const styles = StyleSheet.create({
   loader: {
     marginTop: '30%',
-    color: '#009688',
+    color: '#00675b',
   },
 })
 

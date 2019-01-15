@@ -34,7 +34,7 @@ const HomeStack = values =>
       defaultNavigationOptions: {
         title: 'places',
         headerStyle: {
-          backgroundColor: '#009688',
+          backgroundColor: '#00675b',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -59,7 +59,7 @@ const CreatePlaceStack = values =>
       defaultNavigationOptions: {
         title: 'create a place',
         headerStyle: {
-          backgroundColor: '#009688',
+          backgroundColor: '#00675b',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
