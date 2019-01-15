@@ -23,14 +23,14 @@ class CreatePlace extends Component {
 
   handleCreatePlace = createPlaceMutation => {
     const { address, name } = this.state
+    const { allPlacesQuery } = this.props
     const { geoCoordinates } = address
 
     this.setState({
       isLoading: true,
     })
 
-    return (
-      createPlaceMutation &&
+    if (createPlaceMutation) {
       createPlaceMutation({
         variables: {
           name,
@@ -38,14 +38,13 @@ class CreatePlace extends Component {
           lat: toString(geoCoordinates.lat),
           longi: toString(geoCoordinates.longi),
         },
-      })
-    )
+      }).then(() => allPlacesQuery.refetch())
+    }
   }
 
   render() {
-    const { handleAddressChange, handleCreatePlace, props, state } = this
-    const { allPlacesQuery } = props
-    const { address, isLoading, name } = state
+    const { handleAddressChange, handleCreatePlace, state } = this
+    const { address, isLoading } = state
 
     return (
       <View>
@@ -69,10 +68,7 @@ class CreatePlace extends Component {
           <AddressSearchInput onAddressChange={handleAddressChange} />
         </View>
 
-        <Mutation
-          mutation={CREATE_PLACE_MUTATION}
-          onCompleted={allPlacesQuery.refetch}
-        >
+        <Mutation mutation={CREATE_PLACE_MUTATION}>
           {createPlaceMutation => (
             <Button
               loading={isLoading}

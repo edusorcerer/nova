@@ -63,7 +63,7 @@ class PlacesList extends Component {
     return allPlacesQuery.loading ? (
       <ActivityIndicator size="large" style={styles.loader} color="#009688" />
     ) : (
-      <ScrollView>
+      <ScrollView onScrollEndDrag={() => allPlacesQuery.refetch()}>
         {allPlaces &&
           allPlaces.map(place => {
             const {

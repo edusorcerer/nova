@@ -82,6 +82,9 @@ const TabNavigator = values =>
 
 const AppRouterWithAllPlacesQuery = graphql(ALL_PLACES_QUERY, {
   name: 'allPlacesQuery',
+  options: {
+    fetchPolicy: 'cache-and-network',
+  },
 })(AppRouter)
 
 export default AppRouterWithAllPlacesQuery

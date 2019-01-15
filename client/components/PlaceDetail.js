@@ -21,12 +21,18 @@ class PlaceDetail extends Component {
     this.setState({
       isDeletingPlace: true,
     })
-    return deletePlaceMutation && deletePlaceMutation({ variables: { id } })
+
+    const { allPlacesQuery } = this.props
+    if (deletePlaceMutation) {
+      deletePlaceMutation({ variables: { id } }).then(() =>
+        allPlacesQuery.refetch(),
+      )
+    }
   }
 
   render() {
     const { handleDeletePlace, props } = this
-    const { allPlacesQuery, navigation } = props
+    const { navigation } = props
     const { isDeletingPlace } = this.state
     const place = navigation.getParam('place', false)
 
@@ -77,10 +83,7 @@ class PlaceDetail extends Component {
           placeInfos.map(({ label, value }, i) => (
             <ListItem key={i} title={`${label}: ${value}`} hideChevron={true} />
           ))}
-        <Mutation
-          mutation={DELETE_PLACE_MUTATION}
-          onCompleted={allPlacesQuery.refetch}
-        >
+        <Mutation mutation={DELETE_PLACE_MUTATION}>
           {deletePlaceMutation => (
             <Button
               loading={isDeletingPlace}
