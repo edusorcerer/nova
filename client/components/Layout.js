@@ -58,7 +58,9 @@ class Layout extends Component {
       state: parsedAddressComponents.administrative_area_level_1,
       street: parsedAddressComponents.route,
       geoCoordinates:
-        latitude && longitude ? { lat: latitude, longi: longitude } : null,
+        latitude && longitude
+          ? { lat: latitude.toString(), longi: longitude.toString() }
+          : null,
     }
 
     return address

@@ -35,8 +35,7 @@ class CreatePlace extends Component {
         variables: {
           name,
           ...address,
-          lat: toString(geoCoordinates.lat),
-          longi: toString(geoCoordinates.longi),
+          ...geoCoordinates,
         },
       }).then(() => allPlacesQuery.refetch())
     }
