@@ -59,7 +59,7 @@ class CreatePlace extends Component {
         <View
           style={{
             width: '100%',
-            height: '40%',
+            height: '50%',
             alignItems: 'center',
             borderRadius: 8,
             backgroundColor: '#f4f4f4',
@@ -80,6 +80,7 @@ class CreatePlace extends Component {
                   : () => false
               }
               title="create place"
+              style={{ marginTop: 20 }}
             />
           )}
         </Mutation>

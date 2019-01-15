@@ -39,7 +39,7 @@ class PlaceDetail extends Component {
     const {
       id,
       name,
-      address: { city, state },
+      address: { city, state, neighborhood, street, number },
     } = place
 
     const placeInfos = [
@@ -54,6 +54,18 @@ class PlaceDetail extends Component {
       {
         label: 'State',
         value: state,
+      },
+      {
+        label: 'Neighborhood',
+        value: neighborhood,
+      },
+      {
+        label: 'Street',
+        value: street,
+      },
+      {
+        label: 'Number',
+        value: number,
       },
     ]
 
@@ -89,6 +101,7 @@ class PlaceDetail extends Component {
               loading={isDeletingPlace}
               onPress={() => handleDeletePlace(deletePlaceMutation, id)}
               title="delete this place"
+              style={{ marginTop: 20 }}
             />
           )}
         </Mutation>
