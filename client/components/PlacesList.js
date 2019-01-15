@@ -56,8 +56,6 @@ class PlacesList extends Component {
           'K',
         )
       })
-
-      allPlaces.sort((a, b) => a.distance - b.distance)
     }
 
     return allPlacesQuery.loading ? (
@@ -65,23 +63,25 @@ class PlacesList extends Component {
     ) : (
       <ScrollView onScrollEndDrag={() => allPlacesQuery.refetch()}>
         {allPlaces &&
-          allPlaces.map(place => {
-            const {
-              id,
-              name,
-              address: { city, state },
-            } = place
-            return (
-              <View key={id}>
-                <ListItem
-                  key={id}
-                  title={`${name} - ${city}, ${state}`}
-                  leftIcon={{ name: 'place' }}
-                  onPress={() => handlePlaceClick(id, place)}
-                />
-              </View>
-            )
-          })}
+          allPlaces
+            .sort((a, b) => a.distance - b.distance)
+            .map(place => {
+              const {
+                id,
+                name,
+                address: { city, state },
+              } = place
+              return (
+                <View key={id}>
+                  <ListItem
+                    key={id}
+                    title={`${name} - ${city}, ${state}`}
+                    leftIcon={{ name: 'place' }}
+                    onPress={() => handlePlaceClick(id, place)}
+                  />
+                </View>
+              )
+            })}
       </ScrollView>
     )
   }
