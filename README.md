@@ -1,5 +1,11 @@
 # nova
 
+Mobile app for managing places
+
+It allows the user for doing CRUD operations into persisted places, the addresses search are connected to Google Maps API
+
+Used stack: React Native, Nodejs, ApolloGraphQL
+
 ## installation
 
 run `npm install or yarn run install` to install all necessary dependencies for client and server
